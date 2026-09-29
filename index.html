@@ -3,140 +3,104 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Phương pháp Nổi bọt – Bubble Sort</title>
+  <title>Phương pháp Nổi bọt – Bubble Sort (Sắp xếp nổi bọt)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="polish.css" />
+  <style>
+    .speaker-tag { display:inline-block; background:rgba(124,108,240,0.2); color:var(--accent-soft); font-size:0.75rem; font-weight:600; padding:4px 12px; border-radius:20px; margin-bottom:16px; }
+    .script-block { background:var(--bg-card); border-radius:var(--radius); padding:28px 32px; border:1px solid rgba(255,255,255,0.05); margin-bottom:20px; border-left:4px solid var(--accent); }
+    .script-block p { color:var(--text-muted); font-size:1.05rem; line-height:1.75; margin-bottom:14px; }
+    .script-block p:last-child { margin-bottom:0; }
+    .script-block strong { color:var(--text); }
+    .hero-orbs { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+    .orb { position:absolute; border-radius:50%; filter:blur(60px); opacity:0.45; animation:orbFloat 10s ease-in-out infinite; }
+    .orb-1 { width:280px; height:280px; background:rgba(124,108,240,0.5); top:10%; left:15%; }
+    .orb-2 { width:200px; height:200px; background:rgba(45,212,168,0.35); bottom:15%; right:20%; animation-delay:-3s; }
+    .orb-3 { width:160px; height:160px; background:rgba(110,182,255,0.4); top:40%; right:10%; animation-delay:-6s; }
+    @keyframes orbFloat { 0%,100% { transform:translate(0,0) scale(1); } 50% { transform:translate(20px,-25px) scale(1.08); } }
+    .hero { position:relative; overflow:hidden; }
+  </style>
 </head>
 <body>
   <div class="progress-bar" id="progressBar"></div>
   <nav class="nav-dots" id="navDots">
-    <a href="#hero" data-section="0" data-label="Trang chủ" class="active"></a>
+    <a href="#hero" data-section="0" data-label="Mở đầu" class="active"></a>
     <a href="#idea" data-section="1" data-label="Ý tưởng"></a>
-    <a href="#algo" data-section="2" data-label="Thuật toán"></a>
-    <a href="#complexity" data-section="3" data-label="Độ phức tạp"></a>
+    <a href="#when" data-section="2" data-label="Khi nào dùng"></a>
+    <a href="#algo" data-section="3" data-label="Thuật toán"></a>
     <a href="#visual" data-section="4" data-label="Minh họa"></a>
     <a href="#code" data-section="5" data-label="Mã nguồn"></a>
     <a href="#example" data-section="6" data-label="Ví dụ"></a>
-    <a href="#proscons" data-section="7" data-label="Ưu nhược"></a>
-    <a href="#compare" data-section="8" data-label="So sánh"></a>
+    <a href="#pros" data-section="7" data-label="Ưu điểm"></a>
+    <a href="#cons" data-section="8" data-label="Nhược điểm"></a>
     <a href="#conclusion" data-section="9" data-label="Kết luận"></a>
   </nav>
-
   <section class="section hero" id="hero">
+    <div class="hero-orbs" aria-hidden="true"><span class="orb orb-1"></span><span class="orb orb-2"></span><span class="orb orb-3"></span></div>
     <div class="hero-content">
       <p class="eyebrow">Các phương pháp sắp xếp thông dụng</p>
       <h1>Phương pháp<br><span class="highlight">Nổi bọt</span></h1>
-      <p class="subtitle">Bubble Sort</p>
-      <p class="hero-desc">Bài thuyết trình chi tiết về thuật toán sắp xếp bằng phương pháp nổi bọt</p>
-      <div class="scroll-hint">
-        <span>Cuộn xuống để khám phá</span>
-        <div class="mouse"></div>
-      </div>
+      <p class="subtitle">Bubble Sort (Sắp xếp nổi bọt)</p>
+      <p class="hero-desc">Bài thuyết trình nhóm – khoảng 10 người lần lượt trình bày</p>
+      <div class="scroll-hint"><span>Cuộn xuống để bắt đầu</span><div class="mouse"></div></div>
     </div>
   </section>
-
   <section class="section" id="idea">
     <div class="container">
-      <div class="section-label">01</div>
+      <div class="section-label">01 · Người trình bày 1</div>
       <h2>Từ ý tưởng</h2>
-      <div class="two-col">
-        <div class="card main-idea">
-          <h3>Ý tưởng cốt lõi</h3>
-          <p>So sánh từng cặp phần tử liền kề và đổi chỗ nếu sai thứ tự. Phần tử lớn nhất <strong>“nổi”</strong> dần lên cuối mảng như bọt khí.</p>
-          <div class="analogy">
-            <div class="analogy-icon">🫧</div>
-            <p>Có thể dừng sớm nếu không còn đổi chỗ.</p>
-          </div>
-        </div>
-        <div class="card-stack">
-          <div class="card feature">
-            <span class="num">01</span>
-            <h4>Duyệt cặp liền kề</h4>
-            <p>So sánh a[j] và a[j+1], đổi nếu sai thứ tự</p>
-          </div>
-          <div class="card feature">
-            <span class="num">02</span>
-            <h4>Mỗi vòng → 1 phần tử lớn nhất về cuối</h4>
-            <p>Giống bọt khí nổi lên mặt nước</p>
-          </div>
-        </div>
+      <div class="script-block">
+        <span class="speaker-tag">Đọc to</span>
+        <p>Ý tưởng: so sánh từng cặp phần tử liền kề và đổi chỗ nếu sai thứ tự. Phần tử lớn nhất sẽ <strong>“nổi”</strong> dần lên cuối mảng như bọt khí nổi lên mặt nước.</p>
+        <p>Mỗi vòng duyệt, phần tử lớn nhất trong đoạn chưa sắp sẽ về đúng vị trí cuối. Có thể tối ưu bằng cờ swapped: nếu một vòng không còn đổi chỗ thì dừng sớm.</p>
+      </div>
+    </div>
+  </section>
+  <section class="section dark" id="when">
+    <div class="container">
+      <div class="section-label">02 · Người trình bày 2</div>
+      <h2>Khi nào nên dùng / không nên dùng</h2>
+      <div class="script-block">
+        <span class="speaker-tag">Đọc to</span>
+        <p>Bubble Sort phù hợp khi học thuật toán lần đầu, mảng rất nhỏ, cần ổn định và code đơn giản. Không phù hợp với dữ liệu lớn, yêu cầu hiệu suất, hoặc hầu hết ứng dụng thực tế.</p>
       </div>
       <div class="suitable-grid">
-        <div class="card good">
-          <h4>✓ Phù hợp khi nào?</h4>
-          <ul>
-            <li>Học thuật toán lần đầu</li>
-            <li>Mảng rất nhỏ</li>
-            <li>Cần ổn định + code đơn giản</li>
-          </ul>
-        </div>
-        <div class="card bad">
-          <h4>✗ Không phù hợp khi?</h4>
-          <ul>
-            <li>Dữ liệu lớn</li>
-            <li>Yêu cầu hiệu suất</li>
-            <li>Hầu hết ứng dụng thực tế</li>
-          </ul>
-        </div>
+        <div class="card good"><h4>✓ Phù hợp khi</h4><ul><li>Học thuật toán lần đầu</li><li>Mảng rất nhỏ</li><li>Cần ổn định + code đơn giản</li></ul></div>
+        <div class="card bad"><h4>✗ Không phù hợp khi</h4><ul><li>Dữ liệu lớn</li><li>Yêu cầu hiệu suất</li><li>Hầu hết ứng dụng thực tế</li></ul></div>
       </div>
     </div>
   </section>
-
-  <section class="section dark" id="algo">
+  <section class="section" id="algo">
     <div class="container">
-      <div class="section-label">02</div>
+      <div class="section-label">03 · Người trình bày 3</div>
       <h2>Thuật toán chi tiết</h2>
+      <div class="script-block">
+        <span class="speaker-tag">Đọc to</span>
+        <p><strong>Bước 1:</strong> i chạy từ 0 đến n−2 – số vòng “nổi bọt”.</p>
+        <p><strong>Bước 2:</strong> Đặt swapped ← false ở đầu mỗi vòng.</p>
+        <p><strong>Bước 3:</strong> j chạy từ 0 đến n−i−2. Nếu a[j] > a[j+1] thì đổi chỗ và swapped ← true.</p>
+        <p><strong>Bước 4:</strong> Nếu swapped vẫn false thì break – mảng đã sắp, dừng sớm.</p>
+      </div>
       <div class="steps">
-        <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Vòng ngoài</h4><p>i chạy từ 0 → n−2</p></div></div>
+        <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Vòng ngoài</h4><p>i: 0 → n−2</p></div></div>
         <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Cờ swapped</h4><p>swapped ← false</p></div></div>
-        <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Vòng trong</h4><p>j chạy từ 0 → n−i−2. Nếu a[j] &gt; a[j+1] → đổi chỗ, swapped ← true</p></div></div>
-        <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Dừng sớm</h4><p>Nếu !swapped thì break (đã sắp xong)</p></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Vòng trong</h4><p>So sánh cặp liền kề</p></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Dừng sớm</h4><p>Nếu !swapped → break</p></div></div>
       </div>
     </div>
   </section>
-
-  <section class="section" id="complexity">
-    <div class="container">
-      <div class="section-label">03</div>
-      <h2>Độ phức tạp</h2>
-      <div class="complexity-grid">
-        <div class="card complex-card">
-          <div class="icon-circle time">⏱</div>
-          <h3>Thời gian</h3>
-          <div class="big-o">O(n²)</div>
-          <ul>
-            <li>Tốt nhất: O(n) (với tối ưu)</li>
-            <li>Trung bình / Xấu: O(n²)</li>
-          </ul>
-        </div>
-        <div class="card complex-card">
-          <div class="icon-circle space">💾</div>
-          <h3>Không gian</h3>
-          <div class="big-o">O(1)</div>
-          <ul>
-            <li>In-place</li>
-            <li>Chỉ cần biến tạm</li>
-          </ul>
-        </div>
-        <div class="card complex-card">
-          <div class="icon-circle stable">⚖</div>
-          <h3>Ổn định</h3>
-          <div class="big-o" style="color:var(--green);font-size:1.9rem">Có</div>
-          <ul>
-            <li>Stable</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="section dark" id="visual">
     <div class="container">
-      <div class="section-label">04</div>
+      <div class="section-label">04 · Người trình bày 4</div>
       <h2>Sơ đồ minh họa từng bước</h2>
-      <p class="section-desc">Theo dõi quá trình sắp xếp mảng: <strong>5, 1, 4, 2, 8</strong></p>
+      <div class="script-block">
+        <span class="speaker-tag">Đọc to</span>
+        <p>Minh họa với mảng <strong>5, 1, 4, 2, 8</strong>.</p>
+        <p>Vòng 1: các cặp liền kề đổi chỗ → 8 nổi về cuối. Vòng 2: tiếp tục → 5 về đúng chỗ. Vòng 3: không còn đổi → dừng sớm. Mọi người bấm nút bên dưới để xem từng bước.</p>
+      </div>
       <div class="visualizer">
         <div class="array-state" id="arrayState"></div>
         <div class="visual-controls">
@@ -148,59 +112,60 @@
       </div>
     </div>
   </section>
-
   <section class="section" id="code">
     <div class="container">
-      <div class="section-label">05</div>
-      <h2>Mã giả &amp; Cài đặt C++</h2>
+      <div class="section-label">05 · Người trình bày 5</div>
+      <h2>Mã giả & Cài đặt C++</h2>
+      <div class="script-block">
+        <span class="speaker-tag">Đọc to</span>
+        <p>Có vòng ngoài, cờ swapped, vòng trong so sánh cặp liền kề, và break khi không còn đổi chỗ. break sớm giúp đạt O(n) khi đã sắp sẵn.</p>
+      </div>
       <div class="code-tabs">
         <button class="tab active" data-tab="pseudo">Mã giả</button>
         <button class="tab" data-tab="cpp">C++</button>
       </div>
-      <div class="code-panel active" id="pseudo">
-<pre><code>procedure BubbleSort(a[0..n−1])
+      <div class="code-panel active" id="pseudo"><pre><code>procedure BubbleSort(a[0..n−1])
   for i ← 0 to n−2 do
     swapped ← false
     for j ← 0 to n−i−2 do
-      if a[j] &gt; a[j+1] then
+      if a[j] > a[j+1] then
         swap a[j] with a[j+1]
         swapped ← true
       end if
     end for
     if not swapped then break
   end for
-end procedure</code></pre>
-      </div>
-      <div class="code-panel" id="cpp">
-<pre><code>void bubbleSort(int a[], int n) {
-  for (int i = 0; i &lt; n - 1; i++) {
+end procedure</code></pre></div>
+      <div class="code-panel" id="cpp"><pre><code>void bubbleSort(int a[], int n) {
+  for (int i = 0; i < n - 1; i++) {
     bool swapped = false;
-    for (int j = 0; j &lt; n - i - 1; j++) {
-      if (a[j] &gt; a[j + 1]) {
+    for (int j = 0; j < n - i - 1; j++) {
+      if (a[j] > a[j + 1]) {
         int temp = a[j];
         a[j] = a[j + 1];
         a[j + 1] = temp;
         swapped = true;
       }
     }
-    if (!swapped) break;  // tối ưu
+    if (!swapped) break;
   }
-}</code></pre>
-      </div>
+}</code></pre></div>
       <div class="code-notes">
         <div class="note-item"><strong>Vòng ngoài:</strong> số vòng “nổi bọt”</div>
         <div class="note-item"><strong>Vòng trong:</strong> so sánh cặp liền kề</div>
-        <div class="note-item"><strong>swapped:</strong> cờ kiểm tra có đổi chỗ hay không</div>
-        <div class="note-item"><strong>break sớm:</strong> giúp đạt O(n) khi đã sắp sẵn</div>
+        <div class="note-item"><strong>swapped:</strong> cờ kiểm tra có đổi chỗ</div>
+        <div class="note-item"><strong>break sớm:</strong> giúp đạt O(n) khi đã sắp</div>
       </div>
     </div>
   </section>
-
   <section class="section dark" id="example">
     <div class="container">
-      <div class="section-label">06</div>
+      <div class="section-label">06 · Người trình bày 6</div>
       <h2>Mô hình ví dụ – Sinh viên</h2>
-      <p class="section-desc">Sắp xếp danh sách sinh viên theo điểm tăng dần</p>
+      <div class="script-block">
+        <span class="speaker-tag">Đọc to</span>
+        <p>Sắp xếp sinh viên theo điểm tăng dần. Sau Bubble Sort: Lê Văn C 6.8 → Nguyễn Văn A 7.5 → Trần Thị B 8.2 → Phạm Thị D 9.0.</p>
+      </div>
       <div class="student-table">
         <div class="table-header"><span>Mã SV</span><span>Họ tên</span><span>Điểm TB</span></div>
         <div class="table-row before"><span>SV001</span><span>Nguyễn Văn A</span><span class="score">7.5</span></div>
@@ -208,7 +173,7 @@ end procedure</code></pre>
         <div class="table-row before"><span>SV003</span><span>Lê Văn C</span><span class="score">6.8</span></div>
         <div class="table-row before"><span>SV004</span><span>Phạm Thị D</span><span class="score">9.0</span></div>
       </div>
-      <div class="arrow-down">↓ Bubble Sort theo điểm ↓</div>
+      <div class="arrow-down">↓ Bubble Sort (Sắp xếp nổi bọt) theo điểm ↓</div>
       <div class="student-table sorted">
         <div class="table-header"><span>#</span><span>Họ tên</span><span>Điểm TB</span></div>
         <div class="table-row after"><span>1</span><span>Lê Văn C</span><span class="score">6.8</span></div>
@@ -218,68 +183,44 @@ end procedure</code></pre>
       </div>
     </div>
   </section>
-
-  <section class="section" id="proscons">
+  <section class="section" id="pros">
     <div class="container">
-      <div class="section-label">07</div>
-      <h2>Ưu &amp; Nhược điểm</h2>
-      <div class="pros-cons">
-        <div class="card pros">
-          <h3>Ưu điểm</h3>
-          <ul>
-            <li>Rất dễ hiểu và cài đặt</li>
-            <li>Ổn định (stable)</li>
-            <li>Có thể tối ưu dừng sớm → O(n) tốt nhất</li>
-            <li>Không cần bộ nhớ phụ</li>
-          </ul>
-        </div>
-        <div class="card cons">
-          <h3>Nhược điểm</h3>
-          <ul>
-            <li>O(n²) – chậm với dữ liệu lớn</li>
-            <li>Số lần so sánh và đổi chỗ nhiều</li>
-            <li>Ít được dùng trong thực tế</li>
-          </ul>
-        </div>
+      <div class="section-label">07 · Người trình bày 7</div>
+      <h2>Ưu điểm</h2>
+      <div class="script-block">
+        <span class="speaker-tag">Đọc to</span>
+        <p>Rất dễ hiểu và cài đặt. Ổn định (stable). Có thể tối ưu dừng sớm → O(n) tốt nhất. Không cần bộ nhớ phụ.</p>
+      </div>
+      <div class="card pros" style="border-top:3px solid var(--green)">
+        <ul><li>Rất dễ hiểu và cài đặt</li><li>Ổn định (stable)</li><li>Có thể dừng sớm → O(n)</li><li>Không cần bộ nhớ phụ</li></ul>
       </div>
     </div>
   </section>
-
-  <section class="section dark" id="compare">
+  <section class="section dark" id="cons">
     <div class="container">
-      <div class="section-label">08</div>
-      <h2>So sánh nhanh</h2>
-      <div class="compare-table-wrapper">
-        <table class="compare-table">
-          <thead>
-            <tr><th>Tiêu chí</th><th>Selection</th><th>Insertion</th><th>Bubble</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Thời gian TB</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td></tr>
-            <tr><td>Tốt nhất</td><td>O(n²)</td><td class="good-cell">O(n)</td><td class="good-cell">O(n)</td></tr>
-            <tr><td>Ổn định</td><td class="bad-cell">Không</td><td class="good-cell">Có</td><td class="good-cell">Có</td></tr>
-            <tr><td>Số lần swap</td><td class="good-cell">Ít</td><td>Trung bình</td><td class="bad-cell">Nhiều</td></tr>
-            <tr><td>Dễ cài đặt</td><td class="good-cell">Rất dễ</td><td>Dễ</td><td class="good-cell">Rất dễ</td></tr>
-          </tbody>
-        </table>
+      <div class="section-label">08 · Người trình bày 8</div>
+      <h2>Nhược điểm</h2>
+      <div class="script-block">
+        <span class="speaker-tag">Đọc to</span>
+        <p>O(n²) – chậm với dữ liệu lớn. Số lần so sánh và đổi chỗ nhiều. Ít được dùng trong thực tế – chủ yếu dùng trong giáo dục.</p>
+      </div>
+      <div class="card cons" style="border-top:3px solid var(--red)">
+        <ul><li>O(n²) – chậm với dữ liệu lớn</li><li>Số lần so sánh và đổi chỗ nhiều</li><li>Ít được dùng trong thực tế</li></ul>
       </div>
     </div>
   </section>
-
   <section class="section conclusion" id="conclusion">
     <div class="container">
-      <div class="section-label">09</div>
+      <div class="section-label">09 · Người trình bày 9–10</div>
       <h2>Kết luận</h2>
-      <div class="conclusion-content">
-        <p class="lead">Bubble Sort <strong>dễ hiểu nhất</strong> nhưng hiệu suất kém.</p>
-        <div class="conclusion-points">
-          <div class="point"><span class="icon">→</span><p>Nên học để nắm ý tưởng, sau đó chuyển sang thuật toán tốt hơn.</p></div>
-          <div class="point"><span class="icon">★</span><p>Dùng trong giáo dục và kiểm tra xem mảng đã sắp chưa (1 vòng). Hiếm khi dùng trong production.</p></div>
-        </div>
-        <div class="thank-you">
-          <h3>Cảm ơn đã lắng nghe!</h3>
-          <p>Phương pháp Nổi bọt – Bubble Sort</p>
-        </div>
+      <div class="script-block">
+        <span class="speaker-tag">Đọc to</span>
+        <p>Bubble Sort (Sắp xếp nổi bọt) <strong>dễ hiểu nhất</strong> nhưng hiệu suất kém. Nên học để nắm ý tưởng, sau đó chuyển sang thuật toán tốt hơn. Hiếm khi dùng trong production.</p>
+        <p>Nhóm em xin cảm ơn thầy cô và các bạn đã lắng nghe.</p>
+      </div>
+      <div class="thank-you">
+        <h3>Cảm ơn đã lắng nghe!</h3>
+        <p>Phương pháp Nổi bọt – Bubble Sort (Sắp xếp nổi bọt)</p>
       </div>
     </div>
   </section>
