@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Quiz Bubble Sort</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b1020;--card:#151b2e;--text:#eef2ff;--muted:#9aa6c2;--accent:#7c6cf0;--green:#2dd4a8;--red:#f07178}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--text);padding:24px}
+.wrap{max-width:800px;margin:0 auto}h1{margin:6px 0 8px}.sub{color:var(--muted);margin-bottom:18px}
+.card{background:var(--card);border-radius:16px;padding:20px}.qnum{color:var(--accent);font-weight:700;margin-bottom:8px}
+.qtext{font-size:1.12rem;line-height:1.6;margin-bottom:14px}.opts{display:grid;gap:10px}
+.opt{display:flex;gap:10px;text-align:left;background:#101628;border:1px solid rgba(255,255,255,.08);color:var(--text);border-radius:12px;padding:12px;cursor:pointer;font:inherit}
+.opt .k{min-width:26px;height:26px;border-radius:8px;background:rgba(124,108,240,.25);display:flex;align-items:center;justify-content:center;font-weight:700}
+.opt.ok{border-color:var(--green);background:rgba(45,212,168,.12)}.opt.bad{border-color:var(--red);background:rgba(240,113,120,.12)}
+.explain{margin-top:14px;padding:12px;border-left:4px solid var(--accent);background:#101628;border-radius:10px;color:var(--muted);display:none;line-height:1.7}
+.explain.show{display:block}.explain b{color:var(--text)}
+.bar{display:flex;justify-content:space-between;margin-top:16px;gap:8px}
+button.nav{background:var(--accent);border:0;color:#fff;border-radius:10px;padding:10px 14px;font:inherit;cursor:pointer}
+button.ghost{background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--text)}.score{margin-top:10px;color:var(--muted)}
+a{color:#cfc6ff}
+</style></head><body>
+<div class="wrap">
+<p class="qnum">WEB 4</p><h1>Quiz Bubble Sort</h1>
+<p class="sub">Câu hỏi lấy từ bài Nổi bọt. Bấm A B C D để xem đáp án và giải thích.</p>
+<div class="card"><div class="qnum" id="num"></div><div class="qtext" id="q"></div><div class="opts" id="opts"></div><div class="explain" id="ex"></div>
+<div class="bar"><button class="nav ghost" id="prev">Câu trước</button><button class="nav" id="next">Câu tiếp</button></div>
+<div class="score" id="score"></div></div>
+<p class="sub" style="margin-top:16px"><a href="./index.html">Về bài giảng Bubble</a></p>
+</div>
+<script>
+const Q=[
+{q:"Ý tưởng Bubble Sort là gì?",a:["Tìm min rồi đổi một lần","Chèn key vào dãy đã sắp","So sánh cặp liền kề, số lớn nổi dần về cuối","Cắt mảng làm đôi"],c:2,e:"Giống bọt khí nổi lên mặt nước: số lớn được đẩy dần về cuối mảng."},
+{q:"Cờ swapped dùng để làm gì?",a:["Lưu số lớn nhất","Nếu một vòng không đổi chỗ thì dừng sớm","Đếm phần tử","Tính vị trí giữa"],c:1,e:"Đặt swapped = false đầu mỗi vòng. Hết vòng vẫn false thì mảng đã sắp, break."},
+{q:"So sánh cặp nào?",a:["a[i] với mọi phần tử sau","Cặp liền kề a[j] và a[j+1]","a[0] với a[n-1]","Chỉ a[min]"],c:1,e:"Bước 3: j chạy từng cặp liền kề. Nếu a[j] > a[j+1] thì đổi chỗ."},
+{q:"Nếu swapped vẫn false thì làm gì?",a:["Đổi chỗ thêm lần nữa","break, dừng sớm","Tăng n","Gán min = i"],c:1,e:"Không còn đổi chỗ nghĩa là đã sắp xong, không cần vòng tiếp."},
+{q:"Trường hợp tốt nhất (có swapped) là?",a:["O(n²)","O(n)","O(1)","O(n log n)"],c:1,e:"Mảng đã sắp sẵn: vòng đầu không đổi chỗ, dừng ngay → O(n)."},
+{q:"Trường hợp xấu nhất là?",a:["O(n)","O(n²)","O(log n)","O(1)"],c:1,e:"Dữ liệu lớn hoặc đảo ngược: số so sánh khoảng n × n, chậm."},
+{q:"Bubble Sort có ổn định không?",a:["Không","Có, ổn định","Chỉ khi dùng bool","Chỉ khi n nhỏ"],c:1,e:"Bài giảng: ổn định. Phù hợp khi cần ổn định và code đơn giản."},
+{q:"Nên dùng Bubble Sort khi nào?",a:["Dữ liệu rất lớn","Học lần đầu, mảng rất nhỏ","Thư viện chuẩn tốc độ cao","Online sorting dữ liệu lớn"],c:1,e:"Dễ hiểu nhất nhưng hiệu suất kém. Chủ yếu dùng để học."}
+];
+let i=0,picked=Array(Q.length).fill(null),score=0;
+const num=document.getElementById('num'),q=document.getElementById('q'),opts=document.getElementById('opts'),ex=document.getElementById('ex'),prev=document.getElementById('prev'),next=document.getElementById('next'),sc=document.getElementById('score');
+function render(){const t=Q[i];num.textContent='CÂU '+(i+1)+' / '+Q.length;q.textContent=t.q;opts.innerHTML='';t.a.forEach(function(txt,k){const b=document.createElement('button');b.className='opt';b.type='button';b.innerHTML='<span class="k">'+'ABCD'[k]+'</span><span>'+txt+'</span>';if(picked[i]!==null){b.disabled=true;if(k===t.c)b.classList.add('ok');if(k===picked[i]&&k!==t.c)b.classList.add('bad');}else b.onclick=function(){choose(k);};opts.appendChild(b);});if(picked[i]!==null){ex.className='explain show';ex.innerHTML='<b>'+(picked[i]===t.c?'Đúng.':'Sai.')+' Đáp án: '+'ABCD'[t.c]+'</b><br>'+t.e;}else{ex.className='explain';ex.textContent='';}prev.disabled=i===0;next.textContent=i===Q.length-1?'Xem điểm':'Câu tiếp';const done=picked.filter(function(x){return x!==null;}).length;sc.textContent=done?('Đã trả lời '+done+'/'+Q.length+' · Đúng '+score+' câu'):'Chưa chọn đáp án';}
+function choose(k){if(picked[i]!==null)return;picked[i]=k;if(k===Q[i].c)score++;render();}
+prev.onclick=function(){if(i>0){i--;render();}};
+next.onclick=function(){if(i<Q.length-1){i++;render();}else{q.textContent='Bạn đúng '+score+' / '+Q.length+' câu.';opts.innerHTML='';ex.className='explain show';ex.innerHTML='<b>Hết bài Bubble Sort.</b>';next.disabled=true;sc.textContent='Điểm: '+score+' / '+Q.length;}};
+render();
+</script></body></html>
